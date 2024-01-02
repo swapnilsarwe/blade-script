@@ -10,6 +10,7 @@ class BladeScriptTest extends TestCase
     public function it_doesnt_render_script()
     {
         $view = $this->getView('foo', '<x-script>console.log("Foo");</x-script>');
+        dd($view->render());
         $this->assertEquals('', $view->render());
     }
 
@@ -28,7 +29,8 @@ class BladeScriptTest extends TestCase
         $view = $this->getView('baz', '@include(\'foo\')@include(\'bar\')<x-scripts/>');
 
         $this->assertStringContainsString(
-            "<script>\nconsole.log(\"Foo\");\nconsole.log(\"Bar\");</script>", $view->render()
+            "<script>\nconsole.log(\"Foo\");\nconsole.log(\"Bar\");</script>",
+            $view->render()
         );
     }
 
@@ -37,7 +39,7 @@ class BladeScriptTest extends TestCase
     {
         $view = $this->getView('foo', '<x-script>console.log("Foo");</x-script><x-scripts/>');
         $view->render();
-        $path = storage_path('framework/scripts/'.sha1($view->getPath()).'.js');
+        $path = storage_path('framework/scripts/' . sha1($view->getPath()) . '.js');
         $this->assertTrue(File::exists($path));
         $this->assertSame('console.log("Foo");', File::get($path));
     }
@@ -47,7 +49,7 @@ class BladeScriptTest extends TestCase
     {
         $view = $this->getView('foo', '<x-script>console.log("Foo")</x-script><x-scripts/>');
         $view->render();
-        $path = storage_path('framework/scripts/'.sha1($view->getPath()).'.js');
+        $path = storage_path('framework/scripts/' . sha1($view->getPath()) . '.js');
         $this->assertTrue(File::exists($path));
         $this->artisan('script:clear');
         $this->assertFalse(File::exists($path));
@@ -57,7 +59,7 @@ class BladeScriptTest extends TestCase
     public function test_script_cache_command()
     {
         $view = $this->getView('foo', '<x-script>body{background:red}</x-script>');
-        $path = storage_path('framework/scripts/'.sha1($view->getPath()).'.js');
+        $path = storage_path('framework/scripts/' . sha1($view->getPath()) . '.js');
         $this->assertFalse(File::exists($path));
         $this->artisan('script:cache');
         $this->assertTrue(File::exists($path));
@@ -68,7 +70,7 @@ class BladeScriptTest extends TestCase
     {
         $this->app['config']->set('script.minify', true);
         $view = $this->getView('foo', '<x-script>true</x-script>');
-        $path = storage_path('framework/scripts/'.sha1($view->getPath()).'.js');
+        $path = storage_path('framework/scripts/' . sha1($view->getPath()) . '.js');
         $this->artisan('script:cache');
 
         // true => !0
@@ -83,7 +85,8 @@ class BladeScriptTest extends TestCase
         $view = $this->getView('baz', '@include(\'foo\')@include(\'bar\')<x-scripts/>');
 
         $this->assertStringContainsString(
-            "<script>\ntrue\nfalse</script>", $view->render()
+            "<script>\ntrue\nfalse</script>",
+            $view->render()
         );
     }
 }

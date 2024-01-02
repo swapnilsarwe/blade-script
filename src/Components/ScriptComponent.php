@@ -29,7 +29,7 @@ class ScriptComponent extends Component
      *
      * @var Factory
      */
-    public $factory;
+    protected static $factory;
 
     /**
      * Create new StyleComponent instance.
@@ -41,7 +41,7 @@ class ScriptComponent extends Component
     public function __construct(Factory $factory, $lang = 'css')
     {
         $this->lang = $lang;
-        $this->factory = $factory;
+        self::$factory = $factory;
 
         $this->makeScript();
     }
@@ -55,11 +55,11 @@ class ScriptComponent extends Component
     {
         $path = $this->getPathFromTrace();
 
-        if (! $path) {
+        if (!$path) {
             return;
         }
 
-        $this->script = $this->factory->make($path);
+        $this->script = self::$factory->make($path);
     }
 
     /**
@@ -70,11 +70,11 @@ class ScriptComponent extends Component
     protected function getPathFromTrace()
     {
         foreach (debug_backtrace() as $trace) {
-            if (! array_key_exists('file', $trace)) {
+            if (!array_key_exists('file', $trace)) {
                 continue;
             }
 
-            if (! Str::startsWith($trace['file'], config('view.compiled'))) {
+            if (!Str::startsWith($trace['file'], config('view.compiled'))) {
                 continue;
             }
 

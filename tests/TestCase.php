@@ -34,6 +34,7 @@ class TestCase extends OrchestraTestCase
      */
     public function getView($name, $content, $data = [])
     {
+        // dd(resource_path("views/{$name}.blade.php"));
         File::put($path = resource_path("views/{$name}.blade.php"), $content);
 
         return view($name);
@@ -41,7 +42,9 @@ class TestCase extends OrchestraTestCase
         return new View(
             $this->app['view'],
             $this->app['view.engine.resolver']->resolve('blade'),
-            $name, $path, $data
+            $name,
+            $path,
+            $data
         );
     }
 }
