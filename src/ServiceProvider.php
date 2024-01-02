@@ -62,9 +62,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerMinifier()
     {
-        $this->app->singleton('script.minifier.mullie', function ($app) {
-            return new MullieMinifier;
-        });
+        $this->app->singleton('script.minifier.mullie', fn($app) => new MullieMinifier);
     }
 
     /**
@@ -74,9 +72,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerMinifierEngine()
     {
-        $this->app->singleton('script.engine.minifier', function ($app) {
-            return new MinifierEngine($app['script.minifier.mullie']);
-        });
+        $this->app->singleton('script.engine.minifier', fn($app) => new MinifierEngine($app['script.minifier.mullie']));
     }
 
     /**
@@ -102,13 +98,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function registerScriptCompiler()
     {
-        $this->app->singleton('script.compiler', function ($app) {
-            return new ScriptCompiler(
-                $app['script.engine.minifier'],
-                $app['files'],
-                config('script.compiled')
-            );
-        });
+        $this->app->singleton('script.compiler', fn($app) => new ScriptCompiler(
+            $app['script.engine.minifier'],
+            $app['files'],
+            config('script.compiled')
+        ));
     }
 
     /**
@@ -118,9 +112,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerCompilerEngine()
     {
-        $this->app->singleton('script.engine.compiler', function ($app) {
-            return new CompilerEngine($app['script.compiler']);
-        });
+        $this->app->singleton('script.engine.compiler', fn($app) => new CompilerEngine($app['script.compiler']));
     }
 
     /**
@@ -130,9 +122,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerScriptClearCommand()
     {
-        $this->app->singleton('command.script.clear', function ($app) {
-            return new ScriptClearCommand($app['files']);
-        });
+        $this->app->singleton('command.script.clear', fn($app) => new ScriptClearCommand($app['files']));
 
         $this->commands(['command.script.clear']);
     }
@@ -144,9 +134,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerScriptCacheCommand()
     {
-        $this->app->singleton('command.script.cache', function ($app) {
-            return new ScriptCacheCommand($app['script.factory']);
-        });
+        $this->app->singleton('command.script.cache', fn($app) => new ScriptCacheCommand($app['script.factory']));
 
         $this->commands(['command.script.cache']);
     }

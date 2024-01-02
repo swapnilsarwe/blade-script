@@ -99,7 +99,6 @@ class Factory
     /**
      * Wrap style when not flat.
      *
-     * @param  string $style
      * @param  bool   $flat
      * @return string
      */

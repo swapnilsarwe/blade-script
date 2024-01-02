@@ -11,13 +11,6 @@ use Illuminate\View\Component;
 class ScriptComponent extends Component
 {
     /**
-     * Script language.
-     *
-     * @var string
-     */
-    public $lang;
-
-    /**
      * Script instance.
      *
      * @var Script
@@ -34,13 +27,14 @@ class ScriptComponent extends Component
     /**
      * Create new StyleComponent instance.
      *
-     * @param  Factory $factory
      * @param  string  $lang
      * @return void
      */
-    public function __construct(Factory $factory, $lang = 'css')
+    public function __construct(Factory $factory, /**
+     * Script language.
+     */
+    public $lang = 'css')
     {
-        $this->lang = $lang;
         self::$factory = $factory;
 
         $this->makeScript();

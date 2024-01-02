@@ -19,7 +19,6 @@ class CompilerEngine implements ScriptEngine
     /**
      * Create a new Blade view engine instance.
      *
-     * @param  \BladeScript\Compiler\ScriptCompiler  $compiler
      * @return void
      */
     public function __construct(ScriptCompiler $compiler)

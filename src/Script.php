@@ -8,13 +8,6 @@ use BladeScript\Contracts\ScriptEngine;
 class Script
 {
     /**
-     * Path where style is located.
-     *
-     * @var string
-     */
-    protected $path;
-
-    /**
      * Style engine.
      *
      * @var \BladeStyle\Contracts\StyleEngine
@@ -27,10 +20,13 @@ class Script
      * @param  string  $name
      * @param  ScriptEngine  $compiler
      * @return void
+     * @param string $path
      */
-    public function __construct($path, ScriptEngine $engine)
+    public function __construct(/**
+     * Path where style is located.
+     */
+    protected $path, ScriptEngine $engine)
     {
-        $this->path = $path;
         $this->engine = $engine;
     }
 
